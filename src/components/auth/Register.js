@@ -32,6 +32,25 @@ class Register extends Component {
     e.preventDefault()
     let email = this.state.email, password = this.state.password
     if(this.validateEmail(email) && password) {
+      var user = {email:email,password:password}, origin=this
+      fetch("http://localhost:8080/api/register",{
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      }).then(function(response) {
+          if(response.status===400) {
+            throw Error('Email already used! Please try another one.');
+          }
+          return response.text()
+        }).then(function(data) {
+          if(data) {
+            localStorage.setItem('ACCESS_TOKEN', data)
+            origin.setState({ signupFailed : '' });
+            origin.props.history.push('/login')
+          } 
+        }).catch(function(error) {
+          origin.setState({ signupFailed : error.message });
+        })
     }
   }
   render() {
