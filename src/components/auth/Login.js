@@ -32,6 +32,21 @@ class Login extends Component {
     e.preventDefault()
     let email = this.state.email, password = this.state.password
     if(this.validateEmail(email) && password) {
+      var user = {email:email,password:password}
+      fetch("http://localhost:8080/login",{
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      }).then(response => response.text())
+        .then(data => {
+          if(data) {
+            localStorage.setItem('ACCESS_TOKEN', data)
+            this.setState({ loginFailed : '' });
+            this.props.loginHandler()
+          } else {
+            this.setState({ loginFailed : 'Your Email or Password is incorrect. Please try again!' });
+          }
+      })
     }
   }
   render() {
