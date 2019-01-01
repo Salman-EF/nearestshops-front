@@ -12,7 +12,6 @@ const Distance = (props) => {
             <option value="10">10 kilometers</option>
             <option value="25">25 kilometers</option>
             <option value="100">100 kilometers</option>
-            <option value="300">Any distance</option>
         </select>
     )
 }

@@ -1,26 +1,22 @@
 import React,{ Component } from "react";
-import {MDBContainer,MDBRow,MDBCol,MDBSelect,MDBSelectInput,MDBSelectOptions,MDBSelectOption,MDBCard,MDBCardBody,MDBCardHeader} from "mdbreact";
+import {MDBContainer,MDBRow,MDBCol,MDBBtn, Card, CardBody, CardImage, CardTitle} from "mdbreact";
+import Distance from './Distance'
 
 class Shops extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tracking: true,
             shops: [],
-            position: {
-                lat: null, long:null
-            },
-            distance: 2,
+            position: { lat: null, lon:null },
+            distance : 2,
             isLoading : false
         }
     }
-    refreshAllShops() {
+    refreshAllShops = () => {
     }
-    componentDidMount() {this.refreshAllShops()}
-    componentDidUpdate(prevProps) {
-      if(this.props!==prevProps) this.refreshAllShops()
+    componentDidMount(){
     }
-    distanceHandler = (e) => {
+    componentDidUpdate(prevProps){
     }
 
     render() {
@@ -29,13 +25,7 @@ class Shops extends Component {
                 <MDBRow className="justify-content-center m-4">
                     <p className="h6 pt-2">Distance from your location:</p>
                     <MDBCol md="2">
-                        <select className="browser-default custom-select pointer" onChange={this.distanceHandler} value={this.state.distance}>
-                            <option value="2">2 kilometers</option>
-                            <option value="5">5 kilometers</option>
-                            <option value="10">10 kilometers</option>
-                            <option value="25">25 kilometers</option>
-                            <option value="100">100 kilometers</option>
-                        </select>
+                        <Distance distanceHandler={this.distanceHandler} />
                     </MDBCol>
                 </MDBRow>
                 <MDBRow className="justify-content-center">
@@ -49,18 +39,21 @@ class Shops extends Component {
                 this.state.shops.length ? (
                     this.state.shops.map(shop => {
                         return (
-                            <MDBCol md="4" className="my-2" key={shop.id}>
-                            <MDBCard className="card-react">
-                                <MDBCardHeader>
-                                    <h4>{shop.name}</h4>
-                                </MDBCardHeader>
-                                <MDBCardBody>
-                                <hr/>
-                                <p>
-                                    IMG
-                                </p>
-                                </MDBCardBody>
-                            </MDBCard>
+                            <MDBCol md="3" className="my-4" key={shop.id}>
+                            <Card>
+                                <CardBody>
+                                    <CardTitle>{shop.name}</CardTitle>
+                                    <CardImage style={{width:150}}
+                                        className="img-fluid m-auto"
+                                        src={shop.picture}
+                                        waves
+                                    />
+                                <MDBRow className="justify-content-center">
+                                    <MDBBtn color="danger">Dislike</MDBBtn>
+                                    <MDBBtn color="success">Like</MDBBtn>
+                                </MDBRow>
+                                </CardBody>
+                            </Card>
                             </MDBCol>
                         )
                         })
