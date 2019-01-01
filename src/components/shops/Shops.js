@@ -7,6 +7,7 @@ class Shops extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            tracking: false,
             shops: [],
             position: { lat: null, lon:null },
             distance : 2,
@@ -30,13 +31,12 @@ class Shops extends Component {
         navigator.geolocation.getCurrentPosition(locatingSuccessed,locatingFailed)
         let origin=this
         function locatingSuccessed(userPosition) {
+            origin.setState({ tracking: true })
             let position = {lat:userPosition.coords.latitude,lon:userPosition.coords.longitude}
-            origin.setState({
-                position
-            })
-            origin.refreshAllShops()
+            origin.setState({ position })
         }
         function locatingFailed(err) {
+            origin.setState({ tracking: false })
             console.warn('ERROR(' + err.code + '): ' + err.message);
         }
     }
@@ -59,13 +59,11 @@ class Shops extends Component {
     render() {
         return (
             <MDBContainer id="displayShopsSection">
-                <MDBRow className="justify-content-center m-4">
-                    <p className="h6 pt-2">Distance from your location:</p>
-                    <MDBCol md="2">
-                        <Distance distanceHandler={this.distanceHandler} />
-                    </MDBCol>
-                </MDBRow>
                 <MDBRow className="justify-content-center">
+                {
+                this.state.tracking ? (
+                <MDBCol md="12">
+                <Distance distanceHandler={this.distanceHandler} />
                 {
                 /* Print Loading... till data fetched */
                 this.state.isLoading ? (
@@ -73,9 +71,10 @@ class Shops extends Component {
                         <h3>Loading...</h3>
                     </div>
                 ) : (
-                this.state.shops.length ? (
-                    this.state.shops.map(shop => {
-                        return (
+                    this.state.shops.length ? (
+                        <MDBRow className="justify-content-center">
+                        {this.state.shops.map(shop => {
+                            return (
                             <MDBCol md="3" className="my-4" key={shop.id}>
                             <Card>
                                 <CardBody>
@@ -89,13 +88,22 @@ class Shops extends Component {
                                 </CardBody>
                             </Card>
                             </MDBCol>
-                        )
-                        })
-                        ) : (
-                            <MDBRow className="py-3">
-                                <h3>Sorry, There is no store within this distance</h3>
-                            </MDBRow>
-                        )
+                            )
+                        })}
+                        </MDBRow>
+                    ) : (
+                        <MDBRow className="justify-content-center py-3">
+                            <h3>Sorry, There is no store within this distance</h3>
+                        </MDBRow>
+                    )
+                )}
+                </MDBCol>
+                ) : (
+                <MDBContainer id="displayShopsSection">
+                    <MDBRow className="justify-content-center py-5">
+                        <h3 className="w-100">Make sure to allow your location for the application to work properly</h3>
+                    </MDBRow>
+                </MDBContainer>
                 )
                 }
                 </MDBRow>
