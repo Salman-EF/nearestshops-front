@@ -30,3 +30,9 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar {
+  box-shadow: none !important;
+  font-weight: 400 !important;
+}
+.active {text-decoration: underline}
