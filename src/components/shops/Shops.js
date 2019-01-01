@@ -26,8 +26,23 @@ class Shops extends Component {
         })
     }
     componentDidMount(){
+        navigator.geolocation.getCurrentPosition(locatingSuccessed,locatingFailed)
+        let origin=this
+        function locatingSuccessed(userPosition) {
+            let position = {lat:userPosition.coords.latitude,lon:userPosition.coords.longitude}
+            origin.setState({
+                position
+            })
+            origin.refreshAllShops()
+        }
+        function locatingFailed(err) {
+            console.warn('ERROR(' + err.code + '): ' + err.message);
+        }
     }
     componentDidUpdate(prevProps){
+        if (this.props!==prevProps) {
+            this.refreshAllShops()
+        }
     }
     distanceHandler = (distance) => {
         this.setState({
