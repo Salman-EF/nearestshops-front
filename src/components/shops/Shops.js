@@ -18,6 +18,11 @@ class Shops extends Component {
     }
     componentDidUpdate(prevProps){
     }
+    distanceHandler = (distance) => {
+        this.setState({
+            distance
+        }, () => { this.refreshAllShops() })
+    }
 
     render() {
         return (
