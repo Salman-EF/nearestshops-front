@@ -13,6 +13,17 @@ class Shops extends Component {
         }
     }
     refreshAllShops = () => {
+      this.setState({isLoading: true});
+      let token = localStorage.getItem('ACCESS_TOKEN'), origin = this,
+      latitude = this.state.position.lat, longitude = this.state.position.lon, distance = this.state.distance,
+      request = 'http://localhost:8080/api/shops/nearest?lat='+latitude+'&lon='+longitude+'&distance='+distance
+      fetch(request,{
+        method: "GET",
+        headers: { "Authorization": token }
+      }).then(response => response.json())
+        .then(data => {
+          origin.setState({shops: data, isLoading: false})
+        })
     }
     componentDidMount(){
     }
