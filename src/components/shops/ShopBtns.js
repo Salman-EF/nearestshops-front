@@ -7,6 +7,21 @@ class ShopBtns extends Component {
         shops: this.props.shops
     }
     likeShop = () =>{
+        let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
+        fetch('http://localhost:8080/api/shops/preferred',{
+          method: "POST",
+          headers: { "Authorization": token,"Content-Type": "application/json" },
+          body: JSON.stringify(this.state.shop)
+        }).then(response => response.json())
+          .then(data => {
+            let shops = origin.state.shops
+                data.map(preferredShop => {
+                    shops = shops.filter(shop => {
+                        return preferredShop.id !== shop.id
+                    })
+                })
+            origin.props.updateShopsList(shops)
+          })
     }
     render() {
         return (
