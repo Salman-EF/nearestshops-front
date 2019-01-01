@@ -1,5 +1,6 @@
 import React,{ Component } from "react";
 import {MDBContainer,MDBRow,MDBCol, Card, CardBody, CardImage, CardTitle} from "mdbreact";
+import RemoveShop from './RemoveShop'
 
 class PreferredShops extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class PreferredShops extends Component {
           origin.setState({preferredShops: data, isLoading: false})
         })
     }
-    componentDidMount(){ origin.refreshPreferredShops() }
+    componentDidMount(){ this.refreshPreferredShops() }
     updateShopsList = (preferredShopsUpdated) => {
         this.setState({
             preferredShops: preferredShopsUpdated
@@ -50,7 +51,7 @@ class PreferredShops extends Component {
                                         src={shop.picture}
                                         waves
                                     />
-                                    {/* <RemoveShop shop={shop.id} shops={this.state.preferredShops} updateShopsList={this.updateShopsList} /> */}
+                                    <RemoveShop shop={shop.id} shops={this.state.preferredShops} updateShopsList={this.updateShopsList} />
                                 </CardBody>
                             </Card>
                             </MDBCol>
@@ -58,7 +59,7 @@ class PreferredShops extends Component {
                         })
                         ) : (
                             <MDBRow className="py-3">
-                                <h3>Sorry, There is no store within this distance</h3>
+                                <h3>There is no preferred store saved</h3>
                             </MDBRow>
                         )
                 )
