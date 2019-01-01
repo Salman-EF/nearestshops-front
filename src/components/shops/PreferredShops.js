@@ -9,9 +9,18 @@ class PreferredShops extends Component {
             isLoading : false
         }
     }
-    refreshAllShops = () => {
+    refreshPreferredShops = () => {
+      this.setState({isLoading: true});
+      let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
+      fetch('http://localhost:8080/api/shops/preferred',{
+        method: "GET",
+        headers: { "Authorization": token }
+      }).then(response => response.json())
+        .then(data => {
+          origin.setState({preferredShops: data, isLoading: false})
+        })
     }
-    componentDidMount(){ origin.refreshAllShops() }
+    componentDidMount(){ origin.refreshPreferredShops() }
     updateShopsList = (preferredShopsUpdated) => {
         this.setState({
             preferredShops: preferredShopsUpdated
