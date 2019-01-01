@@ -19,7 +19,8 @@ class App extends Component {
   loadCurrentUser = () => {
     let token = localStorage.getItem('ACCESS_TOKEN')
     if(!token) {
-      if (this.props.location['pathname'] === '/') {
+      let path = this.props.location['pathname']
+      if (path === '/' || path === '/shops' || path === '/shops/preferred') {
         this.props.history.push("/login")
       }
     } else {
@@ -56,10 +57,13 @@ class App extends Component {
               <div className="m-5">Login...</div>
             ) : (
               <main className="App-main">
-                  <Route exact path="/" component={Home} isAuthenticated={this.state.isAuthenticated}
-                        currentUser={this.state.currentUser} /*handleLogout={this.handleLogout} {...props}*/ />
                   <Route path="/login"  component={Login} loginHandler={this.loginHandler} />
                   <Route path="/register" component={Register} loginHandler={this.loginHandler} />
+                  <Route exact path="/" component={() => <Home redirect="shops"/>} />
+                  <Route exact path="/shops" component={() => <Home redirect="shops"
+                        currentUser={this.state.currentUser} handleLogout={this.handleLogout} />} />
+                  <Route exact path="/shops/preferred" component={() => <Home redirect="preferredShops"
+                        currentUser={this.state.currentUser} handleLogout={this.handleLogout} />} />
               </main>
             )
           }
