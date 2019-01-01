@@ -1,6 +1,7 @@
 import React,{ Component } from "react";
-import {MDBContainer,MDBRow,MDBCol,MDBBtn, Card, CardBody, CardImage, CardTitle} from "mdbreact";
+import {MDBContainer,MDBRow,MDBCol, Card, CardBody, CardImage, CardTitle} from "mdbreact";
 import Distance from './Distance'
+import ShopBtns from './ShopBtns'
 
 class Shops extends Component {
     constructor(props) {
@@ -49,6 +50,11 @@ class Shops extends Component {
             distance
         }, () => { this.refreshAllShops() })
     }
+    updateShopsList = (shopsUpdated) => {
+        this.setState({
+            shops: shopsUpdated
+        })
+    }
 
     render() {
         return (
@@ -74,15 +80,12 @@ class Shops extends Component {
                             <Card>
                                 <CardBody>
                                     <CardTitle>{shop.name}</CardTitle>
-                                    <CardImage style={{width:150}}
+                                    <CardImage
                                         className="img-fluid m-auto"
                                         src={shop.picture}
                                         waves
                                     />
-                                <MDBRow className="justify-content-center">
-                                    <MDBBtn color="danger">Dislike</MDBBtn>
-                                    <MDBBtn color="success">Like</MDBBtn>
-                                </MDBRow>
+                                    <ShopBtns shop={shop.id} shops={this.state.shops} updateShopsList={this.updateShopsList} />
                                 </CardBody>
                             </Card>
                             </MDBCol>
