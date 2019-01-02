@@ -59,7 +59,7 @@ class App extends Component {
               <main className="App-main">
                   <Route path="/login"  component={Login} loginHandler={this.loginHandler} />
                   <Route path="/register" component={Register} loginHandler={this.loginHandler} />
-                  <Route exact path="/" component={() => <Home redirect="shops"/>} />
+                  <Route exact path="/" component={() => <Home redirect="home"/>} />
                   <Route exact path="/shops" component={() => <Home redirect="shops"
                         currentUser={this.state.currentUser} handleLogout={this.handleLogout} />} />
                   <Route exact path="/shops/preferred" component={() => <Home redirect="preferredShops"

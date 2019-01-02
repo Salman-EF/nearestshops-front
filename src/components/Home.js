@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import '../App.css';
 import {Container} from "mdbreact";
 
@@ -14,12 +13,12 @@ class Home extends Component {
       redirect: this.props.redirect
     }
   }
-  componentDidMount() {
+  componentDidMount = () => {
     let token = localStorage.getItem('ACCESS_TOKEN')
     if(!token) {
       this.props.history.push("/login")
     }
-    if(this.state.redirect==='shops') {
+    if(this.state.redirect==='home') {
       this.props.history.push("/shops")
     }
   }
@@ -41,4 +40,4 @@ class Home extends Component {
   }
 }
 
-export default withRouter(Home);
+export default Home;
