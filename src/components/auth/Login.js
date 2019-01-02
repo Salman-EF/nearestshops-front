@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { MDBInput,MDBBtn } from "mdbreact";
-import { withRouter } from 'react-router-dom';
+import { withRouter ,Link} from 'react-router-dom';
 
 class Login extends Component {
 
@@ -42,7 +42,7 @@ class Login extends Component {
           if(data) {
             localStorage.setItem('ACCESS_TOKEN', data)
             this.setState({ loginFailed : '' });
-            this.props.loginHandler()
+            if(this.props.loginHandler) this.props.loginHandler()
           } else {
             this.setState({ loginFailed : 'Your Email or Password is incorrect. Please try again!' });
           }
@@ -69,8 +69,12 @@ class Login extends Component {
                   <p className="red-text text-center">{this.state.loginFailed}</p>
                   <div className="form-group row justify-content-center">
                       <div className="col-md-8">
-                          <MDBBtn type="submit" color="react">Login</MDBBtn>
+                          <MDBBtn type="submit" color="react">Log In</MDBBtn>
                       </div>
+                  </div>
+                  <div className="row justify-content-center">
+                    <span>Or Create a new account </span>
+                    <Link className="font-weight-bold waves-effect waves-light mx-1" to="/register">Sign Up</Link>
                   </div>
                 </div>
               </div>

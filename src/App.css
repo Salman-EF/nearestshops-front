@@ -18,9 +18,8 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
+.App-link, a {color: #5ED4F3!important}
+.icon-pointer {cursor: pointer!important}
 
 @keyframes App-logo-spin {
   from {
@@ -36,3 +35,12 @@
   font-weight: 400 !important;
 }
 .active {text-decoration: underline}
+.btn-react {
+  background-color: #5ED4F3 !important;
+  color: #FFF !important;
+}
+.md-form input:focus:not([readonly]),
+.md-form textarea.md-textarea:focus:not([readonly]) {
+  box-shadow: 0 1px 0 0 #5ED4F3 !important;
+  border-bottom: 1px solid #5ED4F3 !important;
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { MDBInput,MDBBtn } from "mdbreact";
-import { withRouter } from 'react-router-dom';
+import { withRouter ,Link} from 'react-router-dom';
 
 class Register extends Component {
 
@@ -73,8 +73,12 @@ class Register extends Component {
                   <p className="red-text text-center">{this.state.signupFailed}</p>
                   <div className="form-group row justify-content-center">
                       <div className="col-md-8">
-                          <MDBBtn type="submit" color="react">Register</MDBBtn>
+                          <MDBBtn type="submit" color="react">Sign Up</MDBBtn>
                       </div>
+                  </div>
+                  <div className="row justify-content-center">
+                    <span>If U already have an account </span>
+                    <Link className="font-weight-bold waves-effect waves-light mx-1" to="/login">Log In</Link>
                   </div>
                 </div>
               </div>
