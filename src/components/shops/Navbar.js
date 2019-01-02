@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom'
-import {Navbar, NavbarNav, NavItem, NavbarToggler, Collapse,DropdownToggle,Dropdown,DropdownMenu,DropdownItem,Fa} from "mdbreact";
+import {Navbar, NavbarNav, NavItem, NavbarToggler, Collapse} from "mdbreact";
 
 class NavbarPage extends Component {
 
@@ -11,7 +11,8 @@ class NavbarPage extends Component {
         this.setState(prevState => ({
             collapseID: prevState.collapseID !== collapseID ? collapseID : ""
         }));
-    logoutHandler = () => {
+    logoutHandler = (e) => {
+        e.preventDefault()
         localStorage.removeItem('ACCESS_TOKEN');
         this.setState({
             currentUser: null,
@@ -19,7 +20,7 @@ class NavbarPage extends Component {
         });
         this.props.history.push("/login");
     }
-    
+
     render() {
         return (
           <Navbar dark expand="md" style={{marginTop: "20px"}}>
@@ -33,14 +34,7 @@ class NavbarPage extends Component {
                   <NavLink className="waves-effect waves-light mr-5" to="/shops/preferred">My Preferred Shops</NavLink>
                 </NavItem>
                 <NavItem>
-                  <Dropdown>
-                    <DropdownToggle nav caret>
-                      <Fa icon="user" className="mr-1" />{this.props.currentUser}
-                    </DropdownToggle>
-                    <DropdownMenu className="dropdown-default" right>
-                      <DropdownItem onClick={this.logoutHandler}>Log out</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
+                  <NavLink className="waves-effect waves-light mr-1" to="/logout" onClick={this.logoutHandler}>Log out</NavLink>
                 </NavItem>
               </NavbarNav>
             </Collapse>
