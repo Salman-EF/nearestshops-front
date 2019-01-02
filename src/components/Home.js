@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {withRouter} from 'react-router-dom'
 import '../App.css';
 import {Container} from "mdbreact";
 
@@ -22,12 +23,15 @@ class Home extends Component {
       this.props.history.push("/shops")
     }
   }
+  logoutHandler = () => {
+      this.props.logoutHandler()
+  }
 
   render() {
     let redirect = this.state.redirect
     return (
       <Container>
-        <Navbar />
+        <Navbar currentUser={this.props.currentUser} />
         {
           redirect==='preferredShops' ? (
             <PreferredShops />
@@ -40,4 +44,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);

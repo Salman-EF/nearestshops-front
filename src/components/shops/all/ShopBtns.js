@@ -19,6 +19,7 @@ class ShopBtns extends Component {
                     shops = shops.filter(shop => {
                         return preferredShop.id !== shop.id
                     })
+                    return null
                 })
             origin.props.updateShopsList(shops)
           })
