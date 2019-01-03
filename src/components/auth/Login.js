@@ -37,8 +37,13 @@ class Login extends Component {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
-      }).then(response => response.text())
-        .then(data => {
+      }).then(response => {
+        if (response.ok) {
+          return response.text()
+        } else {
+          throw Error('Sorry something went wrong.')
+        }
+      }).then(data => {
           if(data) {
             localStorage.setItem('ACCESS_TOKEN', data)
             this.setState({ loginFailed : '' });
@@ -46,6 +51,8 @@ class Login extends Component {
           } else {
             this.setState({ loginFailed : 'Your Email or Password is incorrect. Please try again!' });
           }
+      }).catch(error => {
+          this.setState({ loginFailed : error.message })
       })
     }
   }
