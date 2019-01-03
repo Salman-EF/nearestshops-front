@@ -7,18 +7,30 @@ class NavbarPage extends Component {
     state = {
         collapseID: ""
     };
+
+    /* This function just for navbar Responsiveness */
     toggleCollapse = collapseID => () =>
         this.setState(prevState => ({
             collapseID: prevState.collapseID !== collapseID ? collapseID : ""
         }));
+    
     logoutHandler = (e) => {
         e.preventDefault()
-        localStorage.removeItem('ACCESS_TOKEN');
-        this.setState({
-            currentUser: null,
-            isAuthenticated: false
-        });
-        this.props.history.push("/login");
+        let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
+        fetch('http://localhost:8080/api/logout',{
+          method: "POST",
+          headers: { "Authorization": token }
+        }).then(response => response.text())
+          .then(data => {
+              if (data) {
+                origin.setState({
+                    currentUser: null,
+                    isAuthenticated: false
+                })
+                localStorage.removeItem('ACCESS_TOKEN');
+                origin.props.history.push("/login");
+              }
+          })
     }
 
     render() {
