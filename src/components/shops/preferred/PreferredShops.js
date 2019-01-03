@@ -1,4 +1,5 @@
 import React,{ Component } from "react";
+import { withRouter } from 'react-router-dom'
 import {MDBContainer,MDBRow,MDBCol, Card, CardBody, CardImage, CardTitle} from "mdbreact";
 import RemoveShop from './RemoveShop'
 
@@ -13,13 +14,17 @@ class PreferredShops extends Component {
     refreshPreferredShops = () => {
       this.setState({isLoading: true});
       let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
-      fetch('http://localhost:8080/api/shops/preferred',{
-        method: "GET",
-        headers: { "Authorization": token }
-      }).then(response => response.json())
-        .then(data => {
-          origin.setState({preferredShops: data, isLoading: false})
-        })
+      if(!token) {
+        this.props.history.push("/login")
+      } else {
+        fetch('http://localhost:8080/api/shops/preferred',{
+          method: "GET",
+          headers: { "Authorization": token }
+        }).then(response => response.json())
+          .then(data => {
+            origin.setState({preferredShops: data, isLoading: false})
+          })
+      }
     }
     componentDidMount(){ this.refreshPreferredShops() }
     updateShopsList = (preferredShopsUpdated) => {
@@ -70,4 +75,4 @@ class PreferredShops extends Component {
     }
 }
 
-export default PreferredShops
+export default withRouter(PreferredShops)
