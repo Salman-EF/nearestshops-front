@@ -1,4 +1,5 @@
 import React,{ Component } from "react";
+import {withRouter} from 'react-router-dom'
 import {MDBContainer,MDBRow,MDBCol, Card, CardBody, CardImage, CardTitle} from "mdbreact";
 import Distance from './Distance'
 import ShopBtns from './ShopBtns'
@@ -16,16 +17,20 @@ class Shops extends Component {
     }
     refreshAllShops = () => {
       this.setState({isLoading: true});
-      let token = localStorage.getItem('ACCESS_TOKEN'), origin = this,
-      latitude = this.state.position.lat, longitude = this.state.position.lon, distance = this.state.distance,
-      request = 'http://localhost:8080/api/shops/nearest?lat='+latitude+'&lon='+longitude+'&distance='+distance
-      fetch(request,{
-        method: "GET",
-        headers: { "Authorization": token }
-      }).then(response => response.json())
-        .then(data => {
-          origin.setState({shops: data, isLoading: false})
-        })
+      let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
+      if(!token) {
+        this.props.history.push("/login")
+      } else {
+        let latitude = this.state.position.lat, longitude = this.state.position.lon, distance = this.state.distance,
+            request = 'http://localhost:8080/api/shops/nearest?lat='+latitude+'&lon='+longitude+'&distance='+distance
+        fetch(request,{
+            method: "GET",
+            headers: { "Authorization": token }
+        }).then(response => response.json())
+            .then(data => {
+                origin.setState({shops: data, isLoading: false})
+            })
+        }
     }
     componentDidMount(){
         navigator.geolocation.getCurrentPosition(locatingSuccessed,locatingFailed)
@@ -34,6 +39,7 @@ class Shops extends Component {
             origin.setState({ tracking: true })
             let position = {lat:userPosition.coords.latitude,lon:userPosition.coords.longitude}
             origin.setState({ position })
+            origin.refreshAllShops()
         }
         function locatingFailed(err) {
             origin.setState({ tracking: false })
@@ -112,4 +118,4 @@ class Shops extends Component {
     }
 }
 
-export default Shops
+export default withRouter(Shops)
