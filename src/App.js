@@ -14,6 +14,7 @@ class App extends Component {
       isAuthenticated: false,
       isLoading: false
     }
+    this.loadCurrentUser();
   }
 
   loadCurrentUser = () => {
@@ -40,11 +41,7 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    this.loadCurrentUser();
-  }
-
-  loginHandler = () => {
+  loginHandler() {
     this.setState({ isLoading: true });
     this.loadCurrentUser();
   }
