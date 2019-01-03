@@ -21,15 +21,17 @@ class Shops extends Component {
       if(!token) {
         this.props.history.push("/login")
       } else {
-        let latitude = this.state.position.lat, longitude = this.state.position.lon, distance = this.state.distance,
-            request = 'http://localhost:8080/api/shops/nearest?lat='+latitude+'&lon='+longitude+'&distance='+distance
-        fetch(request,{
-            method: "GET",
-            headers: { "Authorization": token }
-        }).then(response => response.json())
+        let latitude = this.state.position.lat, longitude = this.state.position.lon, distance = this.state.distance
+        if (latitude!==null) {
+            let request = 'http://localhost:8080/api/shops/nearest?lat='+latitude+'&lon='+longitude+'&distance='+distance
+            fetch(request,{
+                method: "GET",
+                headers: { "Authorization": token }
+            }).then(response => response.json())
             .then(data => {
                 origin.setState({shops: data, isLoading: false})
             })
+        }
         }
     }
     componentDidMount(){
