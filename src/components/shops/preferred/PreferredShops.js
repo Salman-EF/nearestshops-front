@@ -52,8 +52,8 @@ class PreferredShops extends Component {
                                 <CardBody>
                                     <CardTitle>{shop.name}</CardTitle>
                                     <CardImage
-                                        className="img-fluid m-auto"
-                                        src={shop.picture}
+                                        className="img-fluid m-auto shop-img"
+                                        src={shop.picture} alt={shop.name+' image'}
                                         waves
                                     />
                                     <RemoveShop shop={shop.id} shops={this.state.preferredShops} updateShopsList={this.updateShopsList} />
