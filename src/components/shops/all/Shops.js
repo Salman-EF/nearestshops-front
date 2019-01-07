@@ -45,12 +45,6 @@ class Shops extends Component {
         }
         function locatingFailed(err) {
             origin.setState({ tracking: false })
-            console.warn('ERROR(' + err.code + '): ' + err.message);
-        }
-    }
-    componentDidUpdate(prevProps){
-        if (this.props!==prevProps) {
-            this.refreshAllShops()
         }
     }
     distanceHandler = (distance) => {
@@ -80,7 +74,13 @@ class Shops extends Component {
                     </div>
                 ) : (
                     this.state.shops.length ? (
-                        <MDBRow className="justify-content-center">
+                    <MDBRow className="justify-content-center">
+                        <MDBRow className="py-3">
+                            <h4>Matkhafch..!! We found
+                                <span className="font-weight-bold text-success"> {this.state.shops.length} </span>Shops for You
+                            </h4>
+                        </MDBRow>
+                        <MDBRow>
                         {this.state.shops.map(shop => {
                             return (
                             <MDBCol md="3" className="my-4" key={shop.id}>
@@ -92,17 +92,19 @@ class Shops extends Component {
                                         src={shop.picture}
                                         waves
                                     />
-                                    <ShopBtns shop={shop.id} shops={this.state.shops} updateShopsList={this.updateShopsList} />
+                                    <ShopBtns shop={shop.id} shops={this.state.shops} 
+                                                updateShopsList={this.updateShopsList} />
                                 </CardBody>
                             </Card>
                             </MDBCol>
                             )
                         })}
                         </MDBRow>
+                    </MDBRow>
                     ) : (
-                        <MDBRow className="justify-content-center py-3">
-                            <h3>Sorry, There is no store within this distance</h3>
-                        </MDBRow>
+                    <MDBRow className="justify-content-center py-3">
+                        <h3>Sorry, There is no store within this distance</h3>
+                    </MDBRow>
                     )
                 )}
                 </MDBCol>
