@@ -32,7 +32,8 @@ class Login extends Component {
     e.preventDefault()
     let email = this.state.email, password = this.state.password
     if(this.validateEmail(email) && password) {
-      var user = {email:email,password:password}
+      let user = {email:email,password:password},
+          failedMsg = 'Your Email or Password is incorrect. Please try again!'
       fetch("http://localhost:8080/login",{
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -40,8 +41,8 @@ class Login extends Component {
       }).then(response => {
         if (response.ok) {
           return response.text()
-        } else {
-          throw Error('Sorry something went wrong.')
+        } else if (response.status===401) {
+          throw Error(failedMsg)
         }
       }).then(data => {
           if(data) {
@@ -49,7 +50,7 @@ class Login extends Component {
             this.setState({ loginFailed : '' });
             if(this.props.loginHandler) this.props.loginHandler()
           } else {
-            this.setState({ loginFailed : 'Your Email or Password is incorrect. Please try again!' });
+            this.setState({ loginFailed : failedMsg });
           }
       }).catch(error => {
           this.setState({ loginFailed : error.message })
