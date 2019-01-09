@@ -39,10 +39,10 @@ class Login extends Component {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
       }).then(response => {
-        if (response.ok) {
-          return response.text()
-        } else if (response.status===401) {
+        if (!response.ok) {
           throw Error(failedMsg)
+        } else {
+          return response.text()
         }
       }).then(data => {
           if(data) {
