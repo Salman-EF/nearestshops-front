@@ -25,7 +25,6 @@ class ShopBtns extends Component {
           })
     }
     dislikeShop = () =>{
-        console.log('Shops disliked: '+this.state.shop.id)
         let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
         fetch('http://localhost:8080/api/shops/disliked',{
           method: "POST",

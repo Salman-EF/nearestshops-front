@@ -15,20 +15,31 @@ class Home extends Component {
       body: null
     }
   }
-  componentWillUnmount(){
-      this.setState({body: null})
-  }
-  componentDidMount = () => {
+  isAuthenticated(){
     let token = localStorage.getItem('ACCESS_TOKEN')
     if(!token) {
-      this.props.history.push("/login")
-    } else if(this.state.redirect==='home') {
-      this.props.history.push("/shops")
+      this.props.history.replace({pathname: '/login'})
     }
-    if (this.state.redirect==='preferredShops') {
+  }
+  routingCheck = () => {
+    // Check first authetication/accessToken exists
+    this.isAuthenticated()
+    // Redirect '/' path to '/shops' because shops page is the home page
+    var route = this.props.history.location['pathname']
+    if(route==='/') {
+      this.props.history.replace({pathname: '/shops'});
+    } else if (route==='/shops/preferred') {
       this.setState({ body: <PreferredShops /> })
     } else {
       this.setState({ body: <Shops /> })
+    }
+  }
+  componentDidMount = () => {
+    this.routingCheck()
+  }
+  componentDidUpdate = (prevProps) => {
+    if (this.props!==prevProps) {
+      this.routingCheck()
     }
   }
 
