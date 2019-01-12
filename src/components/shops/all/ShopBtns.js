@@ -14,14 +14,7 @@ class ShopBtns extends Component {
           body: JSON.stringify(this.state.shop)
         }).then(response => response.json())
           .then(data => {
-            let shops = origin.state.shops
-                data.map(preferredShop => {
-                    shops = shops.filter(shop => {
-                        return preferredShop.id !== shop.id
-                    })
-                    return null
-                })
-            origin.props.updateShopsList(shops)
+            origin.props.updateShopsList(data)
           })
     }
     dislikeShop = () =>{
@@ -32,14 +25,7 @@ class ShopBtns extends Component {
           body: JSON.stringify(this.state.shop)
         }).then(response => response.json())
           .then(data => {
-            let shops = origin.state.shops
-                data.map(dislikeShop => {
-                    shops = shops.filter(shop => {
-                        return dislikeShop !== shop.id
-                    })
-                    return null
-                })
-            origin.props.updateShopsList(shops)
+            origin.props.updateShopsList(data)
           })
     }
     render() {
