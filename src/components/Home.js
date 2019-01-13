@@ -11,46 +11,45 @@ class Home extends Component {
   constructor(props){
     super(props)
     this.state = {
-      redirect: this.props.redirect,
+      currentUser: null,
       body: null
     }
   }
-  isAuthenticated(){
-    let token = localStorage.getItem('ACCESS_TOKEN')
-    if(!token) {
-      this.props.history.replace({pathname: '/login'})
-    }
-  }
   routingCheck = () => {
-    // Check first authetication/accessToken exists
-    this.isAuthenticated()
     // Redirect '/' path to '/shops' because shops page is the home page
     var route = this.props.history.location['pathname']
-    if(route==='/') {
-      this.props.history.replace({pathname: '/shops'});
-    } else if (route==='/shops/preferred') {
+    if (route==='/shops/preferred') {
       this.setState({ body: <PreferredShops /> })
     } else {
       this.setState({ body: <Shops /> })
     }
   }
-  componentDidMount = () => {
-    this.routingCheck()
+  componentDidMount () {
+    let token = localStorage.getItem('ACCESS_TOKEN'),origin = this;
+    fetch("http://localhost:8080/api/users/me",{
+      method: "GET",
+      headers: { "Authorization": token }
+    }).then(response => response.text())
+      .then(data => {
+        origin.setState({
+          currentUser:data
+        })
+      })
   }
-  componentDidUpdate = (prevProps) => {
-    if (this.props!==prevProps) {
-      this.routingCheck()
-    }
+  componentWillMount = () => {
+    this.routingCheck()
   }
 
   render() {
     return (
-      <Container>
-        <Navbar currentUser={this.props.currentUser} />
-        {
-          this.state.body
-        }
-      </Container>
+      <main className="App-main">
+        <Navbar currentUser={this.state.currentUser} />
+        <Container>
+          {
+            this.state.body
+          }
+        </Container>
+        </main>
     )
   }
 }
