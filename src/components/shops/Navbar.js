@@ -5,8 +5,17 @@ import {Navbar, NavbarNav, NavItem, NavbarToggler, Collapse} from "mdbreact";
 class NavbarPage extends Component {
 
     state = {
-        collapseID: ""
-    };
+      currentUser: this.props.currentUser,
+      collapseID: ""
+    }
+
+    componentDidUpdate (prevProps) {
+      if(prevProps !== this.props) {
+        this.setState({
+            currentUser: this.props.currentUser
+        })
+      }
+    }
 
     /* This function just for navbar Responsiveness */
     toggleCollapse = collapseID => () =>
@@ -24,8 +33,7 @@ class NavbarPage extends Component {
           .then(data => {
               if (data) {
                 origin.setState({
-                    currentUser: null,
-                    isAuthenticated: false
+                    currentUser: null
                 })
                 localStorage.removeItem('ACCESS_TOKEN');
                 origin.props.history.push("/login");
@@ -36,8 +44,13 @@ class NavbarPage extends Component {
     render() {
         return (
           <Navbar dark expand="md" style={{marginTop: "20px"}}>
-              <NavbarToggler onClick={this.toggleCollapse("navbarCollapse3")} className="warning-color" />
-              <Collapse id="navbarCollapse3" isOpen={this.state.collapseID} navbar>
+              <NavbarToggler onClick={this.toggleCollapse("navbarCollapse3")} className="btn-react" />
+              <Collapse id="navbarCollapse3" isOpen={this.state.collapseID} className="ml-4 text-left" navbar>
+              <NavbarNav left>
+                <NavItem>
+                  <NavLink className="waves-effect waves-light mr-4" to="/profile" onClick={(e) => {e.preventDefault()}}>{this.state.currentUser}</NavLink>
+                </NavItem>
+              </NavbarNav>
               <NavbarNav right>
                 <NavItem>
                   <NavLink className="waves-effect waves-light mr-4" exact to="/shops">Nearby Shops</NavLink>
