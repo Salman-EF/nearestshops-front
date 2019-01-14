@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { MDBInput,MDBBtn } from "mdbreact";
-import { withRouter ,Link} from 'react-router-dom';
+import { withRouter,Link} from 'react-router-dom';
 
 class Login extends Component {
 
   state = {
     email: '',
     password: '',
-    loginFailed: ''
+    loginFailed: null,
+    isLoading: false
   }
-  isAuthorized(){
-    let token = localStorage.getItem('ACCESS_TOKEN')
-    if(token) {
-      this.props.history.push('/')
-    }
-  }
-  componentDidMount() {this.isAuthorized()}
-  componentDidUpdate() {this.isAuthorized()}
 
   changeHandler = (e) => {
     let target = e.target
@@ -25,35 +18,31 @@ class Login extends Component {
       this.validateEmail(target.value) ? (this.setState({invalidEmail:''})):(this.setState({invalidEmail:'invalid'}))
     }
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
+      loginFailed: false
     })
   }
   submitHandler = (e) => {
     e.preventDefault()
     let email = this.state.email, password = this.state.password
     if(this.validateEmail(email) && password) {
+      this.setState({ isLoading : true })
       let user = {email:email,password:password},
           failedMsg = 'Your Email or Password is incorrect. Please try again!'
       fetch("http://localhost:8080/login",{
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
-      }).then(response => {
-        if (!response.ok) {
-          throw Error(failedMsg)
-        } else {
-          return response.text()
-        }
-      }).then(data => {
+      }).then(response => response.text())
+        .then(data => {
+          this.setState({ isLoading : false })
           if(data) {
             localStorage.setItem('ACCESS_TOKEN', data)
-            this.setState({ loginFailed : '' });
-            if(this.props.loginHandler) this.props.loginHandler()
+            this.setState({ loginFailed : '' })
+            this.props.history.push('/shops')
           } else {
             this.setState({ loginFailed : failedMsg });
           }
-      }).catch(error => {
-          this.setState({ loginFailed : error.message })
       })
     }
   }
@@ -74,6 +63,11 @@ class Login extends Component {
                     <MDBInput id="password" name="password" type="password" hint="Password" className="text-center"
                               onChange={this.changeHandler} value={this.state.password} />
                   </div>
+                  {
+                    (this.state.isLoading)? (
+                      <p>Login in...</p>
+                    ) : (null)
+                  }
                   <p className="red-text text-center">{this.state.loginFailed}</p>
                   <div className="form-group row justify-content-center">
                       <div className="col-md-8">

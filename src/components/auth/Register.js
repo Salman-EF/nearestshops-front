@@ -10,14 +10,6 @@ class Register extends Component {
     password: '',
     signupFailed: ''
   }
-  isAuthorized(){
-    let token = localStorage.getItem('ACCESS_TOKEN')
-    if(token) {
-      this.props.history.push('/')
-    }
-  }
-  componentDidMount() {this.isAuthorized()}
-  componentDidUpdate() {this.isAuthorized()}
 
   changeHandler = (e) => {
     let target = e.target
@@ -25,11 +17,13 @@ class Register extends Component {
       this.validateEmail(target.value) ? (this.setState({invalidEmail:''})):(this.setState({invalidEmail:'invalid'}))
     }
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
+      signupFailed : ''
     })
   }
   submitHandler = (e) => {
     e.preventDefault()
+    this.setState({ isLoading: true })
     let email = this.state.email, password = this.state.password
     if(this.validateEmail(email) && password) {
       var user = {email:email,password:password}, origin=this
@@ -37,19 +31,16 @@ class Register extends Component {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
-      }).then(function(response) {
-          if(response.status===400) {
-            throw Error('Email already used! Please try another one.');
-          }
-          return response.text()
-        }).then(function(data) {
-          if(data) {
+      }).then(response => response.text())
+        .then(function(data) {
+          origin.setState({ isLoading: false })
+          if(data.includes('Bearer')) {
             localStorage.setItem('ACCESS_TOKEN', data)
             origin.setState({ signupFailed : '' });
             origin.props.history.push('/login')
-          } 
-        }).catch(function(error) {
-          origin.setState({ signupFailed : error.message });
+          } else {
+            origin.setState({ signupFailed : 'Email already used! Please try another one.' });
+          }
         })
     }
   }
@@ -70,6 +61,11 @@ class Register extends Component {
                     <MDBInput id="password" name="password" type="password" hint="Password" className="text-center"
                               onChange={this.changeHandler} value={this.state.password} />
                   </div>
+                  {
+                    (this.state.isLoading)? (
+                      <p>Registering...</p>
+                    ) : (null)
+                  }
                   <p className="red-text text-center">{this.state.signupFailed}</p>
                   <div className="form-group row justify-content-center">
                       <div className="col-md-8">
