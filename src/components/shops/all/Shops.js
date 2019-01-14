@@ -16,11 +16,8 @@ class Shops extends Component {
         }
     }
     refreshAllShops = () => {
-      this.setState({isLoading: true});
-      let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
-      if(!token) {
-        this.props.history.push("/login")
-      } else {
+        this.setState({isLoading: true});
+        let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
         let latitude = this.state.position.lat, longitude = this.state.position.lon, distance = this.state.distance
         if (latitude!==null) {
             let request = 'http://localhost:8080/api/shops/nearest?lat='+latitude+'&lon='+longitude+'&distance='+distance
@@ -31,7 +28,6 @@ class Shops extends Component {
             .then(data => {
                 origin.setState({shops: data, isLoading: false})
             })
-        }
         }
     }
     componentDidMount(){
@@ -54,7 +50,6 @@ class Shops extends Component {
     }
     updateShopsList = (filteringShops) => {
         let shops = this.state.shops
-        console.log(shops)
         filteringShops.map(preferredShop => {
             shops.filter(shop => {
                 return preferredShop.id !== shop.id
