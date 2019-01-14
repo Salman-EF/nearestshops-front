@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter ,Link} from 'react-router-dom';
 import '../../App.css';
 import { MDBInput,MDBBtn } from "mdbreact";
-import { withRouter ,Link} from 'react-router-dom';
+import authServices from './authServices'
 
 class Register extends Component {
 
@@ -9,6 +10,11 @@ class Register extends Component {
     email: '',
     password: '',
     signupFailed: ''
+  }
+  componentWillMount() {
+    if (authServices.isAuthenticated()) {
+      this.props.history.push('/shops')
+    }
   }
 
   changeHandler = (e) => {

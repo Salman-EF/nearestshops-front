@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../App.css';
 import { MDBInput,MDBBtn } from "mdbreact";
 import { withRouter,Link} from 'react-router-dom';
+import authServices from './authServices'
 
 class Login extends Component {
 
@@ -11,7 +12,11 @@ class Login extends Component {
     loginFailed: null,
     isLoading: false
   }
-
+  componentWillMount() {
+    if (authServices.isAuthenticated()) {
+      this.props.history.push('/shops')
+    }
+  }
   changeHandler = (e) => {
     let target = e.target
     if (target.id === 'email') {
@@ -27,8 +32,7 @@ class Login extends Component {
     let email = this.state.email, password = this.state.password
     if(this.validateEmail(email) && password) {
       this.setState({ isLoading : true })
-      let user = {email:email,password:password},
-          failedMsg = 'Your Email or Password is incorrect. Please try again!'
+      let user = {email:email,password:password}
       fetch("http://localhost:8080/login",{
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -39,9 +43,10 @@ class Login extends Component {
           if(data) {
             localStorage.setItem('ACCESS_TOKEN', data)
             this.setState({ loginFailed : '' })
+            authServices.login()
             this.props.history.push('/shops')
           } else {
-            this.setState({ loginFailed : failedMsg });
+            this.setState({ loginFailed : 'Your Email or Password is incorrect. Please try again!' });
           }
       })
     }
