@@ -43,6 +43,7 @@ class Register extends Component {
           if(data.includes('Bearer')) {
             localStorage.setItem('ACCESS_TOKEN', data)
             origin.setState({ signupFailed : '' });
+            authServices.login()
             origin.props.history.push('/login')
           } else {
             origin.setState({ signupFailed : 'Email already used! Please try another one.' });
