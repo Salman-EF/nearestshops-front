@@ -48,17 +48,9 @@ class Shops extends Component {
             distance
         }, () => { this.refreshAllShops() })
     }
-    updateShopsList = (filteringShops) => {
-        let shops = this.state.shops
-        filteringShops.map(preferredShop => {
-            shops.filter(shop => {
-                return preferredShop.id !== shop.id
-            })
-            return null
-        })
-        console.log(shops)
+    updateShopsList = (filteredShops) => {
         this.setState({
-            shops
+            shops: filteredShops
         })
     }
 
