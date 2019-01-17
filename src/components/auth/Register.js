@@ -3,6 +3,7 @@ import { withRouter ,Link} from 'react-router-dom';
 import '../../App.css';
 import { MDBInput,MDBBtn } from "mdbreact";
 import authServices from './authServices'
+import { REGISTER, ACCESS_TOKEN } from "../constants";
 
 class Register extends Component {
 
@@ -33,7 +34,7 @@ class Register extends Component {
     let email = this.state.email, password = this.state.password
     if(this.validateEmail(email) && password) {
       var user = {email:email,password:password}, origin=this
-      fetch("http://localhost:8080/api/register",{
+      fetch(REGISTER, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
@@ -41,7 +42,7 @@ class Register extends Component {
         .then(function(data) {
           origin.setState({ isLoading: false })
           if(data.includes('Bearer')) {
-            localStorage.setItem('ACCESS_TOKEN', data)
+            localStorage.setItem(ACCESS_TOKEN, data)
             origin.setState({ signupFailed : '' });
             authServices.login()
             origin.props.history.push('/login')

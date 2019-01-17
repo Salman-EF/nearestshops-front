@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {MDBContainer,MDBRow,MDBCol, Card, CardBody, CardImage, CardTitle} from "mdbreact";
 import Distance from './Distance'
 import ShopBtns from './ShopBtns'
+import { SHOPS_NEAREST, ACCESS_TOKEN } from "../../constants";
 
 class Shops extends Component {
     constructor(props) {
@@ -17,11 +18,11 @@ class Shops extends Component {
     }
     refreshAllShops = () => {
         this.setState({isLoading: true});
-        let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
-        let latitude = this.state.position.lat, longitude = this.state.position.lon, distance = this.state.distance
+        let token = localStorage.getItem(ACCESS_TOKEN), origin = this,
+        latitude = this.state.position.lat, longitude = this.state.position.lon, distance = this.state.distance,
+        params = '?lat='+latitude+'&lon='+longitude+'&distance='+distance
         if (latitude!==null) {
-            let request = 'http://localhost:8080/api/shops/nearest?lat='+latitude+'&lon='+longitude+'&distance='+distance
-            fetch(request,{
+            fetch(SHOPS_NEAREST + params,{
                 method: "GET",
                 headers: { "Authorization": token }
             }).then(response => response.json())

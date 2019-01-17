@@ -1,5 +1,6 @@
 import React,{ Component } from "react";
 import {MDBRow,MDBBtn} from "mdbreact";
+import { SHOPS_PREFERRED, ACCESS_TOKEN } from "../../constants";
 
 class RemoveShop extends Component {
     state = {
@@ -7,8 +8,8 @@ class RemoveShop extends Component {
         shops: this.props.shops
     }
     removeShop = () =>{
-        let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
-        fetch('http://localhost:8080/api/shops/preferred',{
+        let token = localStorage.getItem(ACCESS_TOKEN), origin = this
+        fetch(SHOPS_PREFERRED,{
           method: "DELETE",
           headers: { "Authorization": token,"Content-Type": "application/json" },
           body: JSON.stringify(this.state.shop)

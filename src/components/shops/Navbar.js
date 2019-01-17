@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink, withRouter } from 'react-router-dom'
 import {Navbar, NavbarNav, NavItem, NavbarToggler, Collapse} from "mdbreact";
 import authServices from '../auth/authServices'
+import { LOGOUT, ACCESS_TOKEN } from "../constants";
 
 class NavbarPage extends Component {
 
@@ -26,8 +27,8 @@ class NavbarPage extends Component {
     
     logoutHandler = (e) => {
         e.preventDefault()
-        let token = localStorage.getItem('ACCESS_TOKEN'),origin=this
-        fetch('http://localhost:8080/api/logout',{
+        let token = localStorage.getItem(ACCESS_TOKEN),origin=this
+        fetch(LOGOUT,{
           method: "POST",
           headers: { "Authorization": token }
         }).then(response => response.text())
@@ -36,7 +37,7 @@ class NavbarPage extends Component {
                 origin.setState({
                     currentUser: null
                 })
-                localStorage.removeItem('ACCESS_TOKEN');
+                localStorage.removeItem(ACCESS_TOKEN);
                 authServices.logout()
                 origin.props.history.push("/login");
               }

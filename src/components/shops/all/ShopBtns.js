@@ -1,5 +1,6 @@
 import React,{ Component } from "react";
 import {MDBRow,MDBBtn} from "mdbreact";
+import { SHOPS_PREFERRED,SHOPS_DISLIKED, ACCESS_TOKEN } from "../../constants";
 
 class ShopBtns extends Component {
     state = {
@@ -14,8 +15,8 @@ class ShopBtns extends Component {
         }
     }
     likeShop = () =>{
-        let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
-        fetch('http://localhost:8080/api/shops/preferred',{
+        let token = localStorage.getItem(ACCESS_TOKEN), origin = this
+        fetch(SHOPS_PREFERRED,{
           method: "POST",
           headers: { "Authorization": token,"Content-Type": "application/json" },
           body: JSON.stringify(this.state.shop)
@@ -32,8 +33,8 @@ class ShopBtns extends Component {
         })
     }
     dislikeShop = () =>{
-        let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
-        fetch('http://localhost:8080/api/shops/disliked',{
+        let token = localStorage.getItem(ACCESS_TOKEN), origin = this
+        fetch(SHOPS_DISLIKED, {
           method: "POST",
           headers: { "Authorization": token,"Content-Type": "application/json" },
           body: JSON.stringify(this.state.shop)
