@@ -1,6 +1,8 @@
 # Nearby Shops Front-end
 Reactjs web application provides the user to search for the nearest shops from his location.
 
+The application on Heroku: [Nearby Shops](https://nearestshops.herokuapp.com)
+
 P.S. The idea of the project is from the [United Remote web coding challenge](https://github.com/hiddenfounders/web-coding-challenge.git).
 
 ## Requirements
