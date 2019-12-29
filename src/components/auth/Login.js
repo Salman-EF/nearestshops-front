@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../App.css';
 import { MDBInput,MDBBtn } from "mdbreact";
-import { withRouter,Link} from 'react-router-dom';
+import { withRouter,Link} from 'react-router-dom'
+import { LOGIN, ACCESS_TOKEN } from "../constants";
 import authServices from './authServices'
 
 class Login extends Component {
@@ -33,7 +34,7 @@ class Login extends Component {
     if(this.validateEmail(email) && password) {
       this.setState({ isLoading : true })
       let user = {email:email,password:password}
-      fetch("http://localhost:8080/login",{
+      fetch(LOGIN,{
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
@@ -41,7 +42,7 @@ class Login extends Component {
         .then(data => {
           this.setState({ isLoading : false })
           if(data) {
-            localStorage.setItem('ACCESS_TOKEN', data)
+            localStorage.setItem(ACCESS_TOKEN, data)
             this.setState({ loginFailed : '' })
             authServices.login()
             this.props.history.push('/shops')

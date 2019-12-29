@@ -6,6 +6,7 @@ import {Container} from "mdbreact";
 import Navbar from './shops/Navbar'
 import Shops from './shops/all/Shops'
 import PreferredShops from './shops/preferred/PreferredShops'
+import { ACCESS_TOKEN, USER_ME } from './constants';
 
 class Home extends Component {
   constructor(props){
@@ -25,8 +26,8 @@ class Home extends Component {
     }
   }
   componentDidMount () {
-    let token = localStorage.getItem('ACCESS_TOKEN'),origin = this;
-    fetch("http://localhost:8080/api/users/me",{
+    let token = localStorage.getItem(ACCESS_TOKEN),origin = this;
+    fetch(USER_ME, {
       method: "GET",
       headers: { "Authorization": token }
     }).then(response => response.text())

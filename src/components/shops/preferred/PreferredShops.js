@@ -2,6 +2,7 @@ import React,{ Component } from "react";
 import { withRouter } from 'react-router-dom'
 import {MDBContainer,MDBRow,MDBCol, Card, CardBody, CardImage, CardTitle} from "mdbreact";
 import RemoveShop from './RemoveShop'
+import { SHOPS_PREFERRED, ACCESS_TOKEN } from "../../constants";
 
 class PreferredShops extends Component {
     constructor(props) {
@@ -13,18 +14,14 @@ class PreferredShops extends Component {
     }
     refreshPreferredShops = () => {
       this.setState({isLoading: true});
-      let token = localStorage.getItem('ACCESS_TOKEN'), origin = this
-      if(!token) {
-        this.props.history.push("/login")
-      } else {
-        fetch('http://localhost:8080/api/shops/preferred',{
+      let token = localStorage.getItem(ACCESS_TOKEN), origin = this
+      fetch(SHOPS_PREFERRED,{
           method: "GET",
           headers: { "Authorization": token }
         }).then(response => response.json())
           .then(data => {
             origin.setState({preferredShops: data, isLoading: false})
           })
-      }
     }
     componentDidMount(){ this.refreshPreferredShops() }
     updateShopsList = (preferredShopsUpdated) => {
