@@ -12,7 +12,7 @@ For development, you will only need [Node.js](https://nodejs.org/en/) installed 
 
 #### 1. Clone the application
 ```
-git clone https://github.com/Salman-EF/nearby-shops-UI.git
+git clone https://github.com/Salman-EF/nearestshops-front.git
 ```
 #### 2. installation
 ```
