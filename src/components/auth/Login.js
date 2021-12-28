@@ -37,6 +37,7 @@ class Login extends Component {
       fetch(LOGIN,{
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        mode: 'no-cors',
         body: JSON.stringify(user)
       }).then(response => response.text())
         .then(data => {

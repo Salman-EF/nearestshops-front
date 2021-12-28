@@ -17,7 +17,8 @@ class PreferredShops extends Component {
       let token = localStorage.getItem(ACCESS_TOKEN), origin = this
       fetch(SHOPS_PREFERRED,{
           method: "GET",
-          headers: { "Authorization": token }
+          headers: { "Authorization": token },
+          mode: 'no-cors',
         }).then(response => response.json())
           .then(data => {
             origin.setState({preferredShops: data, isLoading: false})

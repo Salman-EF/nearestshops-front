@@ -12,6 +12,7 @@ class RemoveShop extends Component {
         fetch(SHOPS_PREFERRED,{
           method: "DELETE",
           headers: { "Authorization": token,"Content-Type": "application/json" },
+          mode: 'no-cors',
           body: JSON.stringify(this.state.shop)
         }).then(response => response.json())
           .then(data => {

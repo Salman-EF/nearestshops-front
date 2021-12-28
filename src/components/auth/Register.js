@@ -37,10 +37,11 @@ class Register extends Component {
       fetch(REGISTER, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        mode: 'no-cors',
         body: JSON.stringify(user)
       }).then(response => response.text())
         .then(function(data) {
-          origin.setState({ isLoading: false })
+          console.log('data:',data)
           if(data.includes('Bearer')) {
             localStorage.setItem(ACCESS_TOKEN, data)
             origin.setState({ signupFailed : '' });

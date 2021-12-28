@@ -29,7 +29,8 @@ class Home extends Component {
     let token = localStorage.getItem(ACCESS_TOKEN),origin = this;
     fetch(USER_ME, {
       method: "GET",
-      headers: { "Authorization": token }
+      headers: { "Authorization": token },
+      mode: 'no-cors'
     }).then(response => response.text())
       .then(data => {
         origin.setState({

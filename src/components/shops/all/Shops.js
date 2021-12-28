@@ -24,7 +24,8 @@ class Shops extends Component {
         if (latitude!==null) {
             fetch(SHOPS_NEAREST + params,{
                 method: "GET",
-                headers: { "Authorization": token }
+                headers: { "Authorization": token },
+                mode: 'no-cors',
             }).then(response => response.json())
             .then(data => {
                 origin.setState({shops: data, isLoading: false})

@@ -30,7 +30,8 @@ class NavbarPage extends Component {
         let token = localStorage.getItem(ACCESS_TOKEN),origin=this
         fetch(LOGOUT,{
           method: "POST",
-          headers: { "Authorization": token }
+          headers: { "Authorization": token },
+          mode: 'no-cors',
         }).then(response => response.text())
           .then(data => {
               if (data) {

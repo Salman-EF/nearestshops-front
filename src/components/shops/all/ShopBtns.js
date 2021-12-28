@@ -19,7 +19,8 @@ class ShopBtns extends Component {
         fetch(SHOPS_PREFERRED,{
           method: "POST",
           headers: { "Authorization": token,"Content-Type": "application/json" },
-          body: JSON.stringify(this.state.shop)
+          mode: 'no-cors',
+          body: JSON.stringify(this.state.shop),
         }).then(response => response.json())
         .then(data => {
           let shops = origin.state.shops
@@ -37,6 +38,7 @@ class ShopBtns extends Component {
         fetch(SHOPS_DISLIKED, {
           method: "POST",
           headers: { "Authorization": token,"Content-Type": "application/json" },
+          mode: 'no-cors',
           body: JSON.stringify(this.state.shop)
         }).then(response => response.json())
         .then(data => {
