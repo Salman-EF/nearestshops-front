@@ -30,7 +30,7 @@ class Register extends Component {
   }
   submitHandler = (e) => {
     e.preventDefault()
-    this.setState({ isLoading: true })
+    this.setState({ isLoading : true, signupFailed: false })
     let email = this.state.email, password = this.state.password
     if(this.validateEmail(email) && password) {
       var user = {email:email,password:password}, origin=this
@@ -47,8 +47,14 @@ class Register extends Component {
             authServices.login()
             origin.props.history.push('/login')
           } else {
-            origin.setState({ signupFailed : 'Email already used! Please try another one.' });
+            origin.setState({ signupFailed : 'Email already used. Fii9 m3ana!!! Please try another one.' });
           }
+        })
+        .catch(err => {
+          this.setState({ signupFailed : 'Ta ach drty?!!!, Please try again' });
+        })
+        .finally(() => {
+          this.setState({ isLoading : false });
         })
     }
   }

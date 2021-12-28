@@ -32,7 +32,7 @@ class Login extends Component {
     e.preventDefault()
     let email = this.state.email, password = this.state.password
     if(this.validateEmail(email) && password) {
-      this.setState({ isLoading : true })
+      this.setState({ isLoading : true, loginFailed: false })
       let user = {email:email,password:password}
       fetch(LOGIN,{
         method: "POST",
@@ -40,16 +40,21 @@ class Login extends Component {
         body: JSON.stringify(user)
       }).then(response => response.text())
         .then(data => {
-          this.setState({ isLoading : false })
           if(data) {
             localStorage.setItem(ACCESS_TOKEN, data)
             this.setState({ loginFailed : '' })
             authServices.login()
             this.props.history.push('/shops')
           } else {
-            this.setState({ loginFailed : 'Your Email or Password is incorrect. Please try again!' });
+            this.setState({ loginFailed : 'Your Email or Password is incorrect. Fii9 m3ana!!! Please try again' });
           }
-      })
+        })
+        .catch(err => {
+          this.setState({ loginFailed : 'Ta ach drty?!!!, Please try again' });
+        })
+        .finally(() => {
+          this.setState({ isLoading : false });
+        })
     }
   }
   render() {
